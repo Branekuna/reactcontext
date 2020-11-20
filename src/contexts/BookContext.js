@@ -1,23 +1,33 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext } from 'react';
+import { useLocalObservable } from 'mobx-react-lite';
 import { v4 } from 'uuid';
 
 export const BookContext = createContext();
 
-export const BookContextProvider = (props) => {
-  const [books, setBooks] = useState([
-    { title: 'Name of the Wind', author: 'Patrick Rothfuss', id: 1 },
-    { title: 'The Final Empire', author: 'Brandon Sanderson', id: 2 },
-  ]);
-  const addBook = (title, author) => {
-    setBooks([...books, { title, author, id: v4.apply() }]);
-  };
-  const removeBook = (id) => {
-    setBooks(books.filter((book) => book.id !== id));
-  };
+export const BookContextProvider = ({ children }) => {
+  const store = useLocalObservable(() => ({
+    //state: books
+    books: [],
+    //actions: addBook, removeBook
+    addBook(title, author) {
+      store.books.push({ title, author, id: v4.apply() });
+    },
+    removeBook(id) {
+      store.books = store.books.filter((book) => book.id !== id);
+    },
+    //computed
+    get booksLength() {
+      console.log('books length', store.books.length);
+      return store.books.length;
+    },
+  }));
+  return <BookContext.Provider value={store}>{children}</BookContext.Provider>;
+};
 
-  return (
-    <BookContext.Provider value={{ books, addBook, removeBook }}>
-      {props.children}
-    </BookContext.Provider>
-  );
+export const useBookStore = () => {
+  const store = useContext(BookContext);
+  if (!store) {
+    throw new Error('useStore must be used within a StoreProvider.');
+  }
+  return store;
 };

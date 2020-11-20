@@ -1,10 +1,10 @@
-import { useContext } from 'react';
-import { BookContext } from '../contexts/BookContext';
+import { observer } from 'mobx-react-lite';
+import { BookContext, useBookStore } from '../contexts/BookContext';
 import { BookDetails } from './BookDetails';
 
-export const BookList = () => {
-  const { books } = useContext(BookContext);
-  return books.length ? (
+export const BookList = observer(() => {
+  const { books, booksLength } = useBookStore(BookContext);
+  return booksLength ? (
     <div className='book-list'>
       <ul>
         {books.map((book) => {
@@ -15,4 +15,4 @@ export const BookList = () => {
   ) : (
     <div className='empty'>No books to read. Hello free time! :D</div>
   );
-};
+});
