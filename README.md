@@ -1,5 +1,6 @@
 # Trying out React Context with Hooks
-Branches for useState vs useReducer.
+This learning project is a CRA with various store options.
+Branches exist for useState (main) vs useReducer (reducers) vs mobx with ReactContext  (mobxwithcontext). Mobx includes multiple stores with specific hooks.
 
 # Getting Started with Create React App
 
