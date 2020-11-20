@@ -1,9 +1,8 @@
-import { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { BookContext } from '../contexts/BookContext';
+import { RootStoreContext, useBookStore } from '../contexts/RootStore';
 
 export const Navbar = observer(() => {
-  const { booksLength } = useContext(BookContext);
+  const { booksLength } = useBookStore(RootStoreContext);
   return (
     <div className='navbar'>
       <h1>Reading List</h1>

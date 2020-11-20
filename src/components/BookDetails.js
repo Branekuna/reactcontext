@@ -1,8 +1,7 @@
-import { useContext } from 'react';
-import { BookContext } from '../contexts/BookContext';
+import { RootStoreContext, useBookStore } from '../contexts/RootStore';
 
 export const BookDetails = ({ book }) => {
-  const { removeBook } = useContext(BookContext);
+  const { removeBook } = useBookStore(RootStoreContext);
 
   return (
     <li onClick={() => removeBook(book.id)}>

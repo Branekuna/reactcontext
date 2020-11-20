@@ -1,8 +1,8 @@
-import { useState, useContext } from 'react';
-import { BookContext } from '../contexts/BookContext';
+import { useState } from 'react';
+import { RootStoreContext, useBookStore } from '../contexts/RootStore';
 
 export const NewBookForm = () => {
-  const { addBook } = useContext(BookContext);
+  const { addBook } = useBookStore(RootStoreContext);
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
 

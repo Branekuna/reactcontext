@@ -1,13 +1,10 @@
-import { createContext, useContext } from 'react';
 import { useLocalObservable } from 'mobx-react-lite';
 import { v4 } from 'uuid';
 
-export const BookContext = createContext();
-
-export const BookContextProvider = ({ children }) => {
+export const BookStoreContext = () => {
   const store = useLocalObservable(() => ({
-    //state: books
-    books: [],
+    //initial state: books
+    books: [{ title: 'Blabla', author: 'blablabla', id: 1 }],
     //actions: addBook, removeBook
     addBook(title, author) {
       store.books.push({ title, author, id: v4.apply() });
@@ -15,19 +12,11 @@ export const BookContextProvider = ({ children }) => {
     removeBook(id) {
       store.books = store.books.filter((book) => book.id !== id);
     },
-    //computed
+    //computeds
     get booksLength() {
       console.log('books length', store.books.length);
       return store.books.length;
     },
   }));
-  return <BookContext.Provider value={store}>{children}</BookContext.Provider>;
-};
-
-export const useBookStore = () => {
-  const store = useContext(BookContext);
-  if (!store) {
-    throw new Error('useStore must be used within a StoreProvider.');
-  }
   return store;
 };
